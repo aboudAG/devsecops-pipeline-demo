@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: devsecops-pipeline-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: devsecops-pipeline-demo
+  template:
+    metadata:
+      labels:
+        app: devsecops-pipeline-demo
+    spec:
+      containers:
+        - name: api
+          image: devsecops-pipeline-demo:local
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 5000
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+            capabilities:
+              drop:
+                - ALL
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: devsecops-pipeline-demo
+spec:
+  type: ClusterIP
+  selector:
+    app: devsecops-pipeline-demo
+  ports:
+    - port: 80
+      targetPort: 5000
