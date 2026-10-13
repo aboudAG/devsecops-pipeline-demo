@@ -12,6 +12,11 @@ spec:
       labels:
         app: devsecops-pipeline-demo
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
       containers:
         - name: api
           image: devsecops-pipeline-demo:local
