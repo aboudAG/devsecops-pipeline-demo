@@ -39,7 +39,7 @@ spec:
             capabilities:
               drop:
                 - ALL
-           volumeMounts:
+          volumeMounts:
             - name: tmp
               mountPath: /tmp
       volumes:
