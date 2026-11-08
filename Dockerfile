@@ -10,8 +10,7 @@ RUN groupadd --system --gid 10001 appuser && useradd --system --uid 10001 --gid 
 
 COPY requirements.txt .
 
-# pip ne sert qu'au build : on le retire pour supprimer ses librairies embarquées
-# (msgpack, urllib3, setuptools) signalées par Trivy.
+
 RUN pip install --no-cache-dir --no-compile -r requirements.txt \
     && pip uninstall -y pip
 
