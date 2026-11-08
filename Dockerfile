@@ -4,6 +4,10 @@ ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PIP_DISABLE_PIP_VERSION_CHECK=1
 
+RUN apt-get update \
+    && apt-get upgrade -y --no-install-recommends \
+    && rm -rf /var/lib/apt/lists/*
+    
 WORKDIR /app
 
 RUN groupadd --system --gid 10001 appuser && useradd --system --uid 10001 --gid appuser --home-dir /app appuser
